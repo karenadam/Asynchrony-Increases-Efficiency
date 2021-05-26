@@ -94,7 +94,7 @@ if __name__ == "__main__":
     spacings = ["9x15", "9x9", "9x5"]
     spacing_n = 2
     spike_rates = ["9_5", "9_9", "9_15"]
-    spike_rate_n = 0
+    spike_rate_n = 2
     do_n_TEM_sweep = True
 
     if do_spike_sweep:

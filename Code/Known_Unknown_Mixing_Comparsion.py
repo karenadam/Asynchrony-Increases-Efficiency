@@ -76,6 +76,7 @@ def get_results(x_param, A, t, end_time, Omega, kappa, delta, b, recovType = Rec
     res2 = np.mean(((rec_mult[1, :] - x_1) ** 2)[start_index:end_index]) / np.mean(
         x_1[start_index:end_index] ** 2
     )
+    print(res1, res2)
     return res1, res2
 
 
@@ -142,51 +143,6 @@ def GetData(data_filename, recovType = RecoveryType.no_mixing, num_spikes = None
         )
 
 
-def GenerateFigure(Data_Path, Figure_Path, core_filename = "Figure3_no_mixing", To_Svg = False):
-
-    data_filename = Data_Path + core_filename +".pkl"
-    if To_Svg:
-        figure_filename = Figure_Path + core_filename + ".svg"
-    else:
-        figure_filename = Figure_Path + core_filename + ".png"
-
-    with open(data_filename, "rb") as f:  # Python 3: open(..., 'wb')
-        obj = pickle.load(f, encoding="latin1")
-
-    n_spikes_total = obj[0]
-    n_spikes_constrained = obj[1]
-    results = obj[2]
-    num_signals = results.shape[1]
-    total_deg_freedom = obj[3]
-    apparent_deg_freedom = obj[4]
-
-
-    clr = plt.rcParams["axes.prop_cycle"].by_key()["color"]
-    plt.figure(figsize=(8, 5))
-    plt.plot(n_spikes_total, np.median(results[:, 0, :], 0), label=r"$x^{(0)}(t)$", linestyle = ':')
-    plt.boxplot(results[:,0,:], positions = n_spikes_total, widths = 3)  
-    plt.xlabel("Total number of spikes")
-    plt.ylabel("Reconstruction error")
-    ax = plt.gca()
-    ax.set_yscale("log")
-    ax2 = ax.twiny()
-    ax2.set_xlim(ax.get_xlim())
-    ax.set_xticks(n_spikes_total[0::2])
-    ax.set_xticklabels(n_spikes_total[0::2])
-    ax2.set_xticks(n_spikes_total[0::2])
-    ax2.set_xticklabels(n_spikes_constrained[0::2])
-    ax = plt.gca()
-    ax.set_yscale("log")
-    ax2.axvline(total_deg_freedom, color=clr[2], linestyle = '--')
-    ax2.axvline(apparent_deg_freedom, color=clr[3], linestyle = '--')
-    plt.xlabel("Constrained number of spikes")
-    plt.ylabel("Reconstruction Error")
-    plt.ylim((1e-22,100))
-
-    plt.tight_layout()
-    plt.savefig(figure_filename)
-
-
 if __name__ =="__main__":
     n_trials = 25
     seed = 0
@@ -200,22 +156,19 @@ if __name__ =="__main__":
 
     if not os.path.isfile(data_filename):
         GetData(data_filename, recovType = RecoveryType.known_mixing, num_trials = n_trials, seed = seed)
-    if graphical_import:
-        GenerateFigure(Data_Path, Figure_Path, filename, To_Svg = False)
 
     filename = "Figure3_unknown_mixing"
     data_filename = Data_Path + filename+".pkl"
 
     if not os.path.isfile(data_filename):
+        print("unknown mixing")
         GetData(data_filename, recovType = RecoveryType.unknown_mixing, num_trials = n_trials, seed = seed)
-    if graphical_import:
-        GenerateFigure(Data_Path, Figure_Path, filename, To_Svg = False)
 
     filename = "Figure3_no_mixing"
     data_filename = Data_Path + filename+".pkl"
 
     if not os.path.isfile(data_filename):
+        print("no mixing")
         GetData(data_filename, recovType = RecoveryType.no_mixing, num_trials = n_trials, seed = seed)
-    if graphical_import:
-        GenerateFigure(Data_Path, Figure_Path, filename, To_Svg = False)
+
 
