@@ -6,8 +6,8 @@ import pickle
 import scipy
 import scipy.stats
 
-Figure_Path = os.path.split(os.path.realpath(__file__))[0] + "/Figures/"
-Data_Path = os.path.split(os.path.realpath(__file__))[0] + "/Data/"
+Figure_Path = os.path.split(os.path.realpath(__file__))[0] + "/../Figures/"
+Data_Path = os.path.split(os.path.realpath(__file__))[0] + "/../Data/"
 
 graphical_import = True
 
@@ -23,7 +23,7 @@ To_Svg = True
 if To_Svg:
     figure_filename = Figure_Path + "mixing_comparison.svg"
     plt.rc('text', usetex=False)
-    plt.rc('text.latex', unicode = False)
+    plt.rc('text.latex')#, unicode = False)
     plt.rc('svg',fonttype = 'none')
 
 else:
@@ -31,7 +31,7 @@ else:
 
 
 
-with open(Data_Path + "Figure3_no_mixing.pkl", "rb") as f:  # Python 3: open(..., 'wb')
+with open(Data_Path + "no_mixing.pkl", "rb") as f:  # Python 3: open(..., 'wb')
     obj = pickle.load(f, encoding="latin1")
 
 n_spikes_total = obj[0]
@@ -50,7 +50,7 @@ no_mixing_q3 = np.quantile(results[:,0,:], 0.75, 0)
 
 
 
-with open(Data_Path + "Figure3_known_mixing.pkl", "rb") as f:  # Python 3: open(..., 'wb')
+with open(Data_Path + "known_mixing.pkl", "rb") as f:  # Python 3: open(..., 'wb')
     obj = pickle.load(f, encoding="latin1")
 
 n_spikes_total = obj[0]
@@ -64,7 +64,7 @@ known_mixing_median = np.median(results[:, 0, :], 0)
 known_mixing_q1 = np.quantile(results[:,0,:], 0.25, 0)
 known_mixing_q3 = np.quantile(results[:,0,:], 0.75, 0)
 
-with open(Data_Path + "Figure3_test.pkl", "rb") as f:  # Python 3: open(..., 'wb')
+with open(Data_Path + "unknown_mixing.pkl", "rb") as f:  # Python 3: open(..., 'wb')
     obj = pickle.load(f, encoding="latin1")
 
 n_spikes_total = obj[0]

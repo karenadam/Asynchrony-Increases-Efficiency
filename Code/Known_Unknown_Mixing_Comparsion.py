@@ -150,25 +150,23 @@ if __name__ =="__main__":
     Data_Path = os.path.split(os.path.realpath(__file__))[0] + "/../Data/"
     if len(sys.argv)>1:
         n_trials = int(sys.argv[1])
-    filename = "Figure3_known_mixing"
+    filename = "known_mixing"
 
     data_filename = Data_Path + filename+".pkl"
 
     if not os.path.isfile(data_filename):
         GetData(data_filename, recovType = RecoveryType.known_mixing, num_trials = n_trials, seed = seed)
 
-    filename = "Figure3_unknown_mixing"
+    filename = "unknown_mixing"
     data_filename = Data_Path + filename+".pkl"
 
     if not os.path.isfile(data_filename):
-        print("unknown mixing")
         GetData(data_filename, recovType = RecoveryType.unknown_mixing, num_trials = n_trials, seed = seed)
 
-    filename = "Figure3_no_mixing"
+    filename = "no_mixing"
     data_filename = Data_Path + filename+".pkl"
 
     if not os.path.isfile(data_filename):
-        print("no mixing")
-        GetData(data_filename, recovType = RecoveryType.no_mixing, num_trials = n_trials, seed = seed)
+            GetData(data_filename, recovType = RecoveryType.no_mixing, num_trials = n_trials, seed = seed)
 
 
